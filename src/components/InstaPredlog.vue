@@ -1,11 +1,12 @@
 <template>
     <div class="container">
-  <div class="row">
+  <div class="row pt-2 pb-2">
     <div class="col-3 ">
-      <img src="@/assets/man1.jpg" class="img-thumbnail" >
+      <!-- ne kontam zasto mi se slika sad  ne pokazuje...za prouciti -->
+      <img :src= "slika" class="img-thumbnail" >
     </div>
     <div class="col-7 ">
-      <p class="text-left">First lovely person...</p>
+      <p class="text-left"> First lovely person...</p>
     </div>
     <div class="col-2 ">
       <a href="#" class="badge badge-light">Link</a>
@@ -17,6 +18,7 @@
 
 <script>
 export default {
+    props: ["slika"],
     name: "InstaPredlog",
 };
 </script>
