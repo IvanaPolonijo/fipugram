@@ -23,7 +23,7 @@
                 </li>
               </ul>
               <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <input v-model="store.searchTerm" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
               </form>
             </div>
           </nav>
@@ -31,12 +31,26 @@
       </div>
     </div>
 
-    <div class="container">
+      <div class="container">
       <router-view/>
       <!-- tu router dinamicki ubaci screen -->
     </div>
   </div>
 </template>
+
+<script>
+import store from "@/store";
+
+export default {
+  name: "app",
+  data(){
+    return {
+      store, }
+  }
+};
+</script>
+
+
 
 <style lang="scss">
 body {

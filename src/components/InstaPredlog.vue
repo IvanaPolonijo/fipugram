@@ -4,10 +4,10 @@
     <div class="col-3 ">
       <!-- sliku nekako krivo prenosim (URL mi se krivo formira)
       PORUCI kako ISPRAVNO povuci internal urls!! -->
-      <img :src= "slika" class="img-thumbnail" >
+      <img :src= "slika.url" class="img-fluid" >
     </div>
     <div class="col-7 ">
-      <p class="text-left"> First lovely person...</p>
+      <p class="text-left"> {{slika.redni}}</p>
     </div>
     <div class="col-2 ">
       <a href="#" class="badge badge-light">Link</a>

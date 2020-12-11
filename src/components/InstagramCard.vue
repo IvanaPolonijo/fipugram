@@ -1,16 +1,17 @@
 <template>
   <div class="card text-left">
-    <div class="card-header">Featured </div>
+    <div class="card-header">{{info.description}} </div>
     <div class="card-body p-0">
-      <img :src="info" class="img-fluid" />
+      <img :src="info.url" class="img-fluid" />
     </div>
-    <div class="card-footer text-muted">2 days ago </div>
+    <div class="card-footer text-muted">{{info.time}}</div>
   </div>
 </template>
 
 <script>
 export default {
   props: ["info"],
+  
   name: "InstagramCard",
 };
 </script>

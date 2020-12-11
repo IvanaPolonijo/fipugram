@@ -7,8 +7,8 @@
     </div>
     <div class="col-4">
       <div class="card pb-3">
-        <div class="card-body">Mi vam predlažemo</div>
-        <insta-predlog v-for="card in slikeO" :key="card" :slika="card" />
+        <div class="card-body">Mi vam predlažemo </div>
+        <insta-predlog v-for="slike in slikeO" :key="slike" :slika="slike" />
       </div>
     </div>
   </div>
@@ -16,35 +16,52 @@
 
 <script>
 // @ is an alias to /src
+import store from "@/store";
 import InstagramCard from "../components/InstagramCard.vue";
 import InstaPredlog from "../components/InstaPredlog";
 
+
 let cards = [
-  "https://picsum.photos/id/1/800/800",
-  "https://picsum.photos/id/2/800/800",
-  "https://picsum.photos/id/3/800/800"
+  {"url" : "https://picsum.photos/id/1/800/800",
+  "description" : "laptop",
+  "time" : "about now"
+  },
+  {"url" : "https://picsum.photos/id/2/800/800",
+  "description" : "office",
+  "time" : "few minutes ago"},
+  {"url" : "https://picsum.photos/id/3/800/800",
+  "description" : "working",
+  "time" : "yesterday"}
 ];
 
 let slikeO = [
-  "/man1.jpg",
-  "C:\Users\ivana\OneDrive\Fakultet\Programsko_inženjerstvo\test\fipugram\src\assets\man2.jpg",
-  "C:\Users\ivana\OneDrive\Fakultet\Programsko_inženjerstvo\test\fipugram\src\assets\man3.jpg",
+  {"url" : "https://picsum.photos/id/1001/300/300",
+  "redni" : "Prva krasna osoba",},
+  {"url" : "https://picsum.photos/id/1004/300/300",
+  "redni" : "Druga krasna osoba"},
+  {"url" : "https://picsum.photos/id/1003/300/300",
+  "redni" : "Treća krasna osoba"}
 ];
-
-//to tek eksperimentiram
-// let brojanje = [
-//   "First",
-//   "Second",
-//   "Third",
-// ];
 
 export default {
   name: "Home",
   data: function () {
     return {
       cards: cards,
+      store,
       slikeO: slikeO,
     };
+  },
+  computed: {
+    filteredCards(){
+      let termin = this.store.searchText
+      let newCards = []
+      for (card in this.cards){
+        if (card.description.indexOf(termin) >= 0)
+          {newCards.push(card)}
+      }
+      return newCards;
+    },
   },
   components: {
     InstagramCard,
