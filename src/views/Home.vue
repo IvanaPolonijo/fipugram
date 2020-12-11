@@ -28,16 +28,19 @@ let cards = [
   {
     url: "https://picsum.photos/id/1/800/800",
     description: "laptop",
+    owner: "Larry",
     time: "about now",
   },
   {
     url: "https://picsum.photos/id/2/800/800",
     description: "office",
+    owner: "Marko",
     time: "few minutes ago",
   },
   {
     url: "https://picsum.photos/id/3/800/800",
     description: "working",
+    owner: "Ice",
     time: "yesterday",
   },
 ];
@@ -60,14 +63,13 @@ export default {
   computed: {
     //logika koja cita kartice
     filteredCards() {
-      
-      let termin = this.store.searchTerm;
+      let termin = this.store.searchTerm.toLowerCase(); //bacam u lowercase da smanjim osjetljivost
       let newCards = [];
-     
+    // Kasnije još pokušaj doraditi tako da je i sam card propery case insensitive
       for (let card of this.cards) {
-        if (card.description.indexOf(termin) >= 0) {
+        if (card.description.indexOf(termin) >= 0 || 
+                  card.owner.indexOf(termin) >= 0) {
           newCards.push(card);
-          console.log(newCards)
         }
       }
       return newCards;

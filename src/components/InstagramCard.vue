@@ -1,6 +1,6 @@
 <template>
   <div class="card text-left">
-    <div class="card-header">{{info.description}} </div>
+    <div class="card-header">{{info.description}} by {{info.owner}}</div>
     <div class="card-body p-0">
       <img :src="info.url" class="img-fluid" />
     </div>
