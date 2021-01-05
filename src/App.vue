@@ -16,7 +16,7 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-              <a class="navbar-brand" href="#">
+              <a class="navbar-brand" href="">
                 <svg
                   aria-label="Instagram"
                   class="_8-yf5"
@@ -73,18 +73,25 @@ import store from "@/store";
 import { firebase } from "@/firebase";
 import router from "@/router";
 
+
 firebase.auth().onAuthStateChanged((user) => {
+  const currentRoute = router.currentRoute;
   if (user) {
     // User is signed in.
-    console.log("****", user.email), 
+    console.log("*** User", user.email);
     store.currentUser = user.email;
+    // take me home
+    if (!currentRoute.meta.needsAuth) {
+      router.push({ name: "Home" });
+    }
   } else {
-    //User not logged in
-    console.log("**** no user"), 
+    // User is not signed in.
+    console.log("*** No user");
     store.currentUser = null;
-    //uz ovo sam si dodala u uvijet u navigaciju
-    if (router.name !== "Login"){
-    router.push({ name: "Login"})}
+    // kick me out
+    if (currentRoute.meta.needsAuth) {
+      router.push({ name: "Login" });
+    }
   }
 });
 
@@ -107,8 +114,6 @@ export default {
   },
 };
 </script>
-
-
 
 <style lang="scss">
 body {
