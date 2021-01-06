@@ -15,6 +15,15 @@ const routes = [
     },
   },
   {
+    path: "/edit",
+    name: "Edit",
+    component: () =>
+      import(/* webpackChunkName: "Edit" */ "../views/Edit.vue"),
+    meta: {
+      needsUser: true,
+    },
+  },
+  {
     path: "/login",
     name: "Login",
     // route level code-splitting

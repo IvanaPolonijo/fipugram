@@ -43,6 +43,9 @@
                   >
                 </li>
                 <li v-if="store.currentUser" class="nav-item">
+                  <router-link to="/edit" class="nav-link">Edit</router-link>
+                </li>
+                  <li v-if="store.currentUser" class="nav-item">
                   <a href="#" @click="logout()" class="nav-link">Log out</a>
                 </li>
               </ul>
