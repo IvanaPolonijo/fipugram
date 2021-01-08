@@ -78,19 +78,19 @@ export default {
 		signup() {
             if(this.password != this.repassword){
                 alert("The password does not match!");
-            };
-			firebase
+            } else 
+{			firebase
                 .auth()
 				.createUserWithEmailAndPassword(this.email, this.password)
 				.then(function () {
-					console.log("Uspješna registracija"); //ovo si još uvijek provjeravam 
+					console.log("Uspješna registracija"); //ovo si još uvijek provjeravam je li ok
 				})
 				.catch(function (error) {
 					console.error("Došlo je do greške: ", error);
 					if (error.message) {
 						alert(error.message);
 					}
-				});
+				});}
 		},
 	},
 };
