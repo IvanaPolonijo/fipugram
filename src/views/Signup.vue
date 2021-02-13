@@ -65,7 +65,7 @@
 import { firebase } from "@/firebase";
 
 export default {
-    name:"SignUp",
+  name: "SignUp",
   data() {
     return {
       ime: "",
@@ -74,27 +74,28 @@ export default {
       repassword: "",
     };
   },
- methods: {
-		signup() {
-            if(this.password != this.repassword){
-                alert("The password does not match!");
-            } else 
-{			firebase
-                .auth()
-				.createUserWithEmailAndPassword(this.email, this.password)
-				.then(function () {
-					console.log("Uspješna registracija"); //ovo si još uvijek provjeravam je li ok
-				})
-				.catch(function (error) {
-					console.error("Došlo je do greške: ", error);
-					if (error.message) {
-						alert(error.message);
-					}
-				});}
-		},
-	},
+  methods: {
+    signup() {
+      if (this.password != this.repassword) {
+        alert("The password does not match!");
+      } else {
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.email, this.password)
+          .then(function() {
+            console.log("Uspješna registracija"); //ovo si još uvijek provjeravam je li ok
+          })
+          .catch(function(error) {
+            console.error("Došlo je do greške: ", error);
+            if (error.message) {
+              alert(error.message);
+            }
+          });
+      }
+    },
+  },
 };
 </script>
 
-// Mene ce tu zanimati kako spremati same korisnike...to je tema koja pretpostavljam slijedi 
-// s DB dijelom 
+// Mene ce tu zanimati kako spremati same korisnike...to je tema koja
+pretpostavljam slijedi // s DB dijelom

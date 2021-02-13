@@ -2,6 +2,35 @@
   <div class="row">
     <div class="col-8">
       <div style="min-width: 100%">
+        <form @submit.prevent="postNewImage" class="form-inline mb-5">
+          <div class="form-group">
+            <label for="imageUrl">Image URL</label>
+            <input
+              v-model="newImageUrl"
+              type="text"
+              class="form-control "
+              placeholder="Enter the image URL"
+              id="imageUrl"
+            />
+          </div>
+          <div class="form-group">
+            <label for="imageDescription">Description</label>
+            <input
+              v-model="newImageDescription"
+              type="text"
+              class="form-control"
+              placeholder="Enter the image description"
+              id="imageDescription"
+            />
+          </div>
+          <button
+            @submit.prevent="postNewImage"
+            type="submit"
+            class="btn btn-primary ml-2"
+          >
+            Post image
+          </button>
+        </form>
         <instagram-card
           v-for="card in filteredCards"
           :key="card"
@@ -21,6 +50,7 @@
 <script>
 // @ is an alias to /src
 import store from "@/store";
+import { db } from "@/firebase";
 import InstagramCard from "../components/InstagramCard.vue";
 import InstaPredlog from "../components/InstaPredlog";
 
@@ -53,11 +83,13 @@ let slikeO = [
 
 export default {
   name: "Home",
-  data: function () {
+  data: function() {
     return {
       cards,
       store,
       slikeO: slikeO,
+      newImageUrl: "", // <-- url nove slike
+      newImageDescription: "", // <-- opis nove slike
     };
   },
   computed: {
@@ -65,17 +97,37 @@ export default {
     filteredCards() {
       let termin = this.store.searchTerm.toLowerCase(); //bacam u lowercase da smanjim osjetljivost
       let newCards = [];
-    // Kasnije još pokušaj doraditi tako da je i sam card propery case insensitive
+      // Kasnije još pokušaj doraditi tako da je i sam card propery case insensitive
       for (let card of this.cards) {
-        if (card.description.indexOf(termin) >= 0 || 
-                  card.owner.indexOf(termin) >= 0) {
+        if (
+          card.description.indexOf(termin) >= 0 ||
+          card.owner.indexOf(termin) >= 0
+        ) {
           newCards.push(card);
         }
       }
       return newCards;
     },
   },
-
+  methods: {
+    postNewImage() {
+      db.collection("posts")
+        .add({
+          url: this.newImageUrl,
+          email: store.currentUser,
+          posted_at: Date.now(),
+          desc: this.newImageDescription,
+        })
+        .then((doc) => {
+          console.log( "Spremljeno" , doc)
+          this.newImageDescription = '';
+          this.newImageUrl = '';
+        })
+        .catch((e) => {
+          console.error(e)
+        });
+    },
+  },
   components: {
     InstagramCard,
     InstaPredlog,
