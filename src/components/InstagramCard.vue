@@ -1,18 +1,24 @@
 <template>
   <div class="card text-left">
-    <div class="card-header">{{info.description}} by {{info.owner}}</div>
+    <div class="card-header">{{ info.description }} by {{ info.owner }}</div>
     <div class="card-body p-0">
       <img :src="info.url" class="img-fluid" />
     </div>
-    <div class="card-footer text-muted">{{info.time}}</div>
+    <div class="card-footer text-muted">{{ postedFromNow }}</div>
   </div>
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   props: ["info"],
-  
   name: "InstagramCard",
+  computed: {
+    postedFromNow() {
+      return moment(this.info.time).fromNow();
+    },
+  },
 };
 </script>
 

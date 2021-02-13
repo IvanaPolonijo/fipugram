@@ -24,7 +24,7 @@
             />
           </div>
           <button
-            @submit.prevent="postNewImage"
+            @click.prevent="postNewImage"
             type="submit"
             class="btn btn-primary ml-2"
           >
@@ -54,27 +54,6 @@ import { db } from "@/firebase";
 import InstagramCard from "../components/InstagramCard.vue";
 import InstaPredlog from "../components/InstaPredlog";
 
-let cards = [
-  {
-    url: "https://picsum.photos/id/1/800/800",
-    description: "laptop",
-    owner: "Larry",
-    time: "about now",
-  },
-  {
-    url: "https://picsum.photos/id/2/800/800",
-    description: "office",
-    owner: "Marko",
-    time: "few minutes ago",
-  },
-  {
-    url: "https://picsum.photos/id/3/800/800",
-    description: "working",
-    owner: "Ice",
-    time: "yesterday",
-  },
-];
-
 let slikeO = [
   { url: "https://picsum.photos/id/1001/300/300", redni: "Prva krasna osoba" },
   { url: "https://picsum.photos/id/1004/300/300", redni: "Druga krasna osoba" },
@@ -85,12 +64,16 @@ export default {
   name: "Home",
   data: function() {
     return {
-      cards,
+      cards: [],
       store,
       slikeO: slikeO,
       newImageUrl: "", // <-- url nove slike
       newImageDescription: "", // <-- opis nove slike
     };
+  },
+  mounted() {
+    this.getPosts();
+    // this.postNewImage(); --> ovo mi nije potrebno da se zove za cijeli vue jer ga se zove kad se slika dodaje
   },
   computed: {
     //logika koja cita kartice
@@ -111,21 +94,46 @@ export default {
   },
   methods: {
     postNewImage() {
+      if (this.newImageUrl === "" || this.newImageDescription === "")
+        alert("Oba polja moraju biti ispunjena!");
+      else {
+        db.collection("posts")
+          .add({
+            url: this.newImageUrl,
+            email: store.currentUser,
+            posted_at: Date.now(),
+            desc: this.newImageDescription,
+          })
+          .then((doc) => {
+            console.log("Spremljeno", doc);
+            this.newImageDescription = "";
+            this.newImageUrl = "";
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      }
+    },
+    getPosts() {
+      console.log("dohvat iz firebase");
       db.collection("posts")
-        .add({
-          url: this.newImageUrl,
-          email: store.currentUser,
-          posted_at: Date.now(),
-          desc: this.newImageDescription,
-        })
-        .then((doc) => {
-          console.log( "Spremljeno" , doc)
-          this.newImageDescription = '';
-          this.newImageUrl = '';
-        })
-        .catch((e) => {
-          console.error(e)
+      .orderBy('posted_at', 'desc')
+      .limit(10)
+      .get()
+      .then((query)=> {
+        this.cards = []
+        query.forEach((doc) => {
+          const data = doc.data()
+          this.cards.push({
+            id: doc.id,
+            time: data.posted_at,
+            description: data.desc,
+            url: data.url,
+            owner: data.email,
+          })  
         });
+      })
+      .catch();
     },
   },
   components: {
