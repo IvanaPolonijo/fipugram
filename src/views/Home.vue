@@ -108,6 +108,8 @@ export default {
             console.log("Spremljeno", doc);
             this.newImageDescription = "";
             this.newImageUrl = "";
+            this.getPosts()
+            alert ('Slika uspjesno spremljena :)')
           })
           .catch((e) => {
             console.error(e);
